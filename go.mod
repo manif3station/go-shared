@@ -1,4 +1,4 @@
-module michaelpc.com/shared_lib
+module github.com/manif3station/shared_lib
 
 go 1.19
 
