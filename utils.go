@@ -1,6 +1,7 @@
 package shared_lib
 
 import (
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -67,6 +68,6 @@ func JoinStrs(code func() (string, []string)) string {
 
 func CheckErr(e error) {
 	if e != nil {
-		panic(e)
+		log.Fatal(e)
 	}
 }

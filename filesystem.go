@@ -21,6 +21,9 @@ func File_size(file string) int64 {
 }
 
 func File_exists(file string) bool {
+	if file == "" {
+		return false
+	}
 	info, _ := os.Stat(file)
 	if info == nil {
 		return false
@@ -33,6 +36,9 @@ func File_exists(file string) bool {
 }
 
 func Dir_exists(dir string) bool {
+	if dir == "" {
+		return false
+	}
 	info, _ := os.Stat(dir)
 	if info == nil {
 		return false
@@ -109,6 +115,22 @@ func Find(dir string) []string {
 	sort.Strings(files)
 
 	return files
+}
+
+func FindAllDir(dir string) []string {
+	var found []string
+
+	filepath.Walk(dir, func(path string, info fs.FileInfo, err error) error {
+		if err != nil || !info.IsDir() {
+			return nil
+		}
+		found = append(found, path)
+		return nil
+	})
+
+	sort.Strings(found)
+
+	return found
 }
 
 func Find_and_exclude(inc_dir, exc_dir string) []string {
@@ -189,4 +211,12 @@ func RemoveHiddenFilesInDir(dirPath string) {
 
 		return nil
 	})
+}
+
+func MyHomeFolder() string {
+	return Defor(os.Getenv("HOME"), Defor(os.Getenv("USERPROFILE"), os.Getenv("HOMEDRIVE")+"/"+os.Getenv("HOMEPATH")))
+}
+
+func MyHomeItem(item string) string {
+	return MyHomeFolder() + "/" + item + "/"
 }
