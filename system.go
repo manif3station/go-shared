@@ -1,6 +1,7 @@
 package shared_lib
 
 import (
+	"fmt"
 	"os"
 	"os/exec"
 	"syscall"
@@ -8,6 +9,9 @@ import (
 
 func System(path string, args ...string) (string, error) {
 	cmd := exec.Command(path, args...)
+	if os.Getenv("VERBOSE") == "CMD" {
+		fmt.Println(">> ", cmd)
+	}
 	out, err := cmd.Output()
 	return string(out), err
 }
@@ -23,6 +27,9 @@ func SystemOutputOnly(path string, args ...string) string {
 
 func Exec(path string, args ...string) error {
 	cmd := exec.Command(path, args...)
+	if os.Getenv("VERBOSE") == "CMD" {
+		fmt.Println(">> ", cmd)
+	}
 	err := syscall.Exec(cmd.Path, cmd.Args, os.Environ())
 	return err
 }
