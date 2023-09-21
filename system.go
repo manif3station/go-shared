@@ -12,6 +12,10 @@ func System(path string, args ...string) (string, error) {
 	return string(out), err
 }
 
+func SystemRunOnly(path string, args ...string) {
+	_, _ = System(path, args...)
+}
+
 func SystemOutputOnly(path string, args ...string) string {
 	out, _ := System(path, args...)
 	return out
